@@ -19,7 +19,7 @@ module.exports = {
   styleguideDir: 'docs',
   pagePerSection: true,
   ribbon: {
-    url: 'https://github.com/FEMessage/dialog-table-select'
+    url: 'https://github.com/quixoter/dialog-table-select'
   },
   require: [
     './styleguide/element.js',

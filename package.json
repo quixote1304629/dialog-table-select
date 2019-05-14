@@ -1,12 +1,12 @@
 {
-  "name": "@femessage/dialog-table-select",
+  "name": "@quixoter/dialog-table-select",
   "version": "1.0.0",
   "description": "",
-  "author": "https://github.com/FEMessage",
+  "author": "https://github.com/quixoter",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/FEMessage/dialog-table-select.git"
+    "url": "https://github.com/quixoter/dialog-table-select.git"
   },
   "keywords": [
     "vue",
