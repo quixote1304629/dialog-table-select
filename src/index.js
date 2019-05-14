@@ -1,5 +1,5 @@
 // Import vue component
-import Component from './dialog-table-select/index.vue'
+import Component from './dialog-table-select.vue'
 
 // install function executed by Vue.use()
 export function install(Vue) {
