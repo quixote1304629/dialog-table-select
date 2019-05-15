@@ -8,6 +8,7 @@
     <dialog-table-select
     :visible.sync="visible"
     :dialogConfig="dialogConfig"
+    :searchFormConfig="searchFormConfig"
     :tableConfig="tableConfig"
     :selected="selectedList"
     @handSelect="handSelect"/>
@@ -19,6 +20,17 @@ export default {
   data() {
     return {
       visible: false,
+      searchFormConfig: [
+        {
+          $type: 'input',
+          $id: 'activityName',
+          label: '活动名称',
+          $el: {
+            placeholder: '',
+            size: 'mini'
+          }
+        }
+      ],
       tableConfig: {
         url: 'http://39.98.50.163:3000/mock/725/cdp-wy-activity-center/api/v1/memberActivities/mine',
         columns: [

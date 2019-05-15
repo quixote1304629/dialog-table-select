@@ -17,7 +17,7 @@ export const findSameRow = (list1, list2) => {
   })
 }
 // 在list2中找到list1没有的数据
-export const findNotIncludRow = (list1, list2) => {
+export const findNotIncludeRow = (list1, list2) => {
   return list2.filter(row => {
     return !findRowFromList(list1, row)
   })

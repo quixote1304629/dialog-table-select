@@ -6,6 +6,28 @@
     @opened="dialogOpened"
   >
     <div class="content" v-loading="tableData.loading">
+      <!--搜索字段-->
+      <el-form-renderer
+        v-if="searchFormConfig.length > 0 || !!$slots.search"
+        inline
+        :content="searchFormConfig"
+        ref="searchForm"
+        @submit.native.prevent
+      >
+        <!--@slot 额外的搜索内容, 当searchForm不满足需求时可以使用-->
+        <slot name="search"></slot>
+        <el-form-item>
+          <!--https://github.com/ElemeFE/element/pull/5920-->
+          <el-button
+            native-type="submit"
+            type="primary"
+            @click="search"
+            size="mini"
+          >查询</el-button
+          >
+          <el-button @click="resetSearch" size="mini">重置</el-button>
+        </el-form-item>
+      </el-form-renderer>
       <div class="refresh">
         <el-tooltip
           class="item"
@@ -40,8 +62,8 @@
       </el-pagination>
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogClose">取 消</el-button>
-      <el-button type="primary" @click="dialogClickConfirmButton"
+      <el-button size="mini" @click="dialogClose">取 消</el-button>
+      <el-button size="mini" type="primary" @click="dialogClickConfirmButton"
       >确 定</el-button
       >
     </span>
@@ -59,7 +81,7 @@
     compareRow,
     findRowFromList,
     findSameRow,
-    findNotIncludRow,
+    findNotIncludeRow,
     delList,
     isEmptyObject
   } from './utils.js'
@@ -70,6 +92,8 @@
     props: {
       // 弹框配置参数，具体格式见 ./config.js
       dialogConfig: {type: Object, require: false, default: () => {}},
+      // 搜索表单配置参数
+      searchFormConfig: {type: Array, require: false, default: () => []},
       // 表格配置参数，具体格式见 ./config.js
       tableConfig: {type: Object, require: false, default: () => {}},
       // 分页配置参数，具体格式见 ./config.js
@@ -93,6 +117,9 @@
           PAGINATION_CONFIG_DEFAULT,
           this.paginationConfig
         ),
+        searchForm: {
+          data: {}
+        },
         tableData: {
           loading: false,
           // 是否请求过数据
@@ -125,11 +152,15 @@
       // 关闭弹框
       dialogClose() {
         // 清空单选时 选中行
-        this.$refs.table.setCurrentRow()
+        this.resetSingleSelected()
+
         this.$emit('update:visible', false)
       },
       // 设置表格选中数据
       setTableSelected() {
+        if (!this.tableData.list || this.tableData.list.length == 0) {
+          return
+        }
         this.$nextTick(() => {
           this.tableData.list.forEach(row => {
             const flag = this.tableData.listSelected.some(item => {
@@ -148,7 +179,8 @@
           this.tableData.loading = true
           let requestParam = {
             page: this.thePaginationConfig.paginationAttr.currentPage,
-            size: this.thePaginationConfig.paginationAttr.pageSize
+            size: this.thePaginationConfig.paginationAttr.pageSize,
+            ...this.searchForm.data
           }
           this.$axios
             .get(this.theTableConfig.url, {params: requestParam})
@@ -167,12 +199,16 @@
             })
         }
       },
-      // 点击刷新
-      clickRefresh() {
+      // 重置数据(分页参数、是否请求参数、表格数据)
+      resetData() {
         this.tableData.isRequested = false
         this.tableData.list = []
         this.thePaginationConfig.paginationAttr.currentPage = this.thePaginationConfig.pageDefault
         this.thePaginationConfig.paginationAttr.pageSize = this.thePaginationConfig.sizeDefault
+      },
+      // 点击刷新
+      clickRefresh() {
+        this.resetData()
         this.getList(true)
       },
       // 分页组件 size变化时
@@ -191,11 +227,46 @@
       },
       // 多选-当选择项发生变化时会触发该事件
       handleSelectionChange(val) {
-        this.tableData.listSelectedDy = val
+        // this.tableData.listSelectedDy = val
+        // 1.找出val中有,listSelectedDy无的数据，并存入listSelectedDy
+        let addList = findNotIncludeRow(this.tableData.listSelectedDy, val)
+        this.tableData.listSelectedDy = this.tableData.listSelectedDy.concat(
+          addList
+        )
+        // 2.找出listSelectedDy和tableData.list有，但val无 的数据，在listSelectedDy中删除
+        let sameData = findSameRow(
+          this.tableData.listSelectedDy,
+          this.tableData.list
+        )
+        let delData = findNotIncludeRow(val, sameData)
+        this.tableData.listSelectedDy = delList(
+          this.tableData.listSelectedDy,
+          delData
+        )
       },
       // 单选-当选项行变化时
       handleCurrentChange(row) {
         this.tableData.singleSelectedDy = [row]
+      },
+      /** 搜索表单相关方法*****start**/
+      async search() {
+        await this.$refs.searchForm.validate()
+        this.resetData()
+        this.searchForm.data = this.$refs.searchForm.getFormValue()
+        this.getList(true)
+      },
+      resetSearch() {
+        // reset后, form里的值会变成 undefined, 在下一次查询会赋值给query
+        this.$refs.searchForm.resetFields()
+        this.searchForm.data = {}
+        this.resetData()
+        this.getList(true)
+      },
+      /** 搜索表单相关方法*****end**/
+      // 单选-清空单选数据
+      resetSingleSelected() {
+        this.$refs.table.setCurrentRow()
+        this.tableData.singleSelectedDy = []
       },
       // 点击确定按钮
       dialogClickConfirmButton() {

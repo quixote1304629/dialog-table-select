@@ -1,6 +1,6 @@
 {
   "name": "@quixoter/dialog-table-select",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "author": "https://github.com/quixoter",
   "license": "MIT",
@@ -36,6 +36,7 @@
     "release": "gren release --override"
   },
   "dependencies": {
+    "@femessage/el-form-renderer": "^1.5.5",
     "axios": "^0.18.0",
     "element-ui": "^2.8.2"
   },

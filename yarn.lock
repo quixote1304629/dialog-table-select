@@ -564,6 +564,14 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@femessage/el-form-renderer@^1.5.5":
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/@femessage/el-form-renderer/-/el-form-renderer-1.5.5.tgz#2693f7587e6810de9aaea79f2f5f97e463af0e5a"
+  integrity sha512-t8YsCUaMkm1XgZNoIdx9NadoBzof+YYA+YAzR8fOacoHbgI5hKPuQbBwAaeXmBK8iz5nXyOIBwb/ugOYyDAlyg==
+  dependencies:
+    lodash.get "^4.4.2"
+    lodash.set "^4.3.2"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.npm.taobao.org/@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -4719,9 +4727,19 @@ lodash.clonedeep@^4.5.0, lodash.clonedeep@~4.5.0:
   version "4.5.0"
   resolved "https://registry.npm.taobao.org/lodash.clonedeep/download/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
 
+lodash.get@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
+  integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
+
 lodash.ismatch@^4.4.0:
   version "4.4.0"
   resolved "https://registry.npm.taobao.org/lodash.ismatch/download/lodash.ismatch-4.4.0.tgz#756cb5150ca3ba6f11085a78849645f188f85f37"
+
+lodash.set@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+  integrity sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
 
 lodash.template@^4.0.2:
   version "4.4.0"
