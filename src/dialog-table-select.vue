@@ -145,7 +145,10 @@
         }
         return false
       },
-      // 选中的数据-
+      // 动态选中的数据-单选数据/多选数据
+      selectedDy() {
+        return this.isSelection ? this.tableData.listSelectedDy : this.tableData.singleSelectedDy
+      }
     },
     methods: {
       // 弹框打开后
@@ -276,14 +279,11 @@
       },
       // 点击确定按钮
       dialogClickConfirmButton() {
-        let transferList = this.isSelection
-          ? this.tableData.listSelectedDy
-          : this.tableData.singleSelectedDy
-        if (transferList.length === 0) {
+        if (this.selectedDy.length === 0) {
           this.$message.warning('未选择数据')
           return
         }
-        this.$emit('handSelect', transferList)
+        this.$emit('handSelect', this.selectedDy)
         this.dialogClose()
       }
     },
