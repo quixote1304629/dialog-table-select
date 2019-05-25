@@ -144,7 +144,8 @@
           return table.$children[0].type === 'selection'
         }
         return false
-      }
+      },
+      // 选中的数据-
     },
     methods: {
       // 弹框打开后
@@ -168,7 +169,10 @@
             const flag = this.tableData.listSelected.some(item => {
               return compareRow(item, row)
             })
+            // 多选
             this.$refs.table.toggleRowSelection(row, flag)
+            // 单选
+            flag && this.$refs.table.setCurrentRow(row)
           })
         })
       },
