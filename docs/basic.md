@@ -11,7 +11,10 @@
     :searchFormConfig="searchFormConfig"
     :tableConfig="tableConfig"
     :selected="selectedList"
-    @handSelect="handSelect"/>
+    @handSelect="handSelect">
+      <div slot="top">top</div>
+      <div slot="bottom">bottom</div>
+    </dialog-table-select>
   </div>
 </template>
 

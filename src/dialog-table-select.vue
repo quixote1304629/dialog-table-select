@@ -5,6 +5,7 @@
     class="dialog-table"
     @opened="dialogOpened"
   >
+    <slot name="top"></slot>
     <div class="content" v-loading="tableData.loading">
       <!--搜索字段-->
       <el-form-renderer
@@ -67,6 +68,7 @@
       >确 定</el-button
       >
     </span>
+    <slot name="bottom" :selected="selected"></slot>
   </el-dialog>
 </template>
 
