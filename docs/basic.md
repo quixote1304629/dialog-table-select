@@ -12,8 +12,8 @@
     :tableConfig="tableConfig"
     :selected="selectedList"
     @handSelect="handSelect">
-      <div slot="top">top</div>
-      <div slot="bottom">bottom</div>
+      <div slot="top" slot-scope="scope">top</div>
+      <div slot="bottom" slot-scope="scope">bottom{{scope.selectedDy}}</div>
     </dialog-table-select>
   </div>
 </template>

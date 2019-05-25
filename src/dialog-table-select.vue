@@ -5,7 +5,7 @@
     class="dialog-table"
     @opened="dialogOpened"
   >
-    <slot name="top"></slot>
+    <slot name="top" :selectedDy="selectedDy"></slot>
     <div class="content" v-loading="tableData.loading">
       <!--搜索字段-->
       <el-form-renderer
@@ -68,7 +68,7 @@
       >确 定</el-button
       >
     </span>
-    <slot name="bottom" :selected="selected"></slot>
+    <slot name="bottom" :selectedDy="selectedDy"></slot>
   </el-dialog>
 </template>
 
@@ -140,14 +140,19 @@
       // 是否为多选表格
       isSelection() {
         let table = this.$refs.table
+        if (!table) {
+          return false
+        }
         if (table.$children.length > 0) {
-          return table.$children[0].type === 'selection'
+          return table.$children[0].type === 'selection';
         }
         return false
       },
       // 动态选中的数据-单选数据/多选数据
       selectedDy() {
-        return this.isSelection ? this.tableData.listSelectedDy : this.tableData.singleSelectedDy
+        let table = this.$refs.table
+        let isSelection = table && table.$children[0] && table.$children[0].type === 'selection'
+        return isSelection ? this.tableData.listSelectedDy : this.tableData.singleSelectedDy
       }
     },
     methods: {
