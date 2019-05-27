@@ -45,7 +45,7 @@ export default {
         dialogAttr: { title: '选择活动' }
       },
       selectedList: [
-        { id: '7cf9a84f7f9f342de76c79518282fe30', activityName: '蝈蝈测试长期活动' }
+        // { id: '7cf9a84f7f9f342de76c79518282fe30', activityName: '蝈蝈测试长期活动' }
       ]
     }
   },

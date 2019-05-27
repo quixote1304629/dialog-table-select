@@ -124,6 +124,8 @@
         },
         tableData: {
           loading: false,
+          // 是否为多选表格
+          isMultiSelection: false,
           // 是否请求过数据
           isRequested: false,
           // 初始选中的数据
@@ -137,27 +139,17 @@
       }
     },
     computed: {
-      // 是否为多选表格
-      isSelection() {
-        let table = this.$refs.table
-        if (!table) {
-          return false
-        }
-        if (table.$children.length > 0) {
-          return table.$children[0].type === 'selection';
-        }
-        return false
-      },
       // 动态选中的数据-单选数据/多选数据
       selectedDy() {
-        let table = this.$refs.table
-        let isSelection = table && table.$children[0] && table.$children[0].type === 'selection'
-        return isSelection ? this.tableData.listSelectedDy : this.tableData.singleSelectedDy
+        return this.tableData.isMultiSelection ? this.tableData.listSelectedDy : this.tableData.singleSelectedDy
       }
     },
     methods: {
       // 弹框打开后
       dialogOpened() {
+        let table = this.$refs.table
+        // 判断是否为多选
+        this.tableData.isMultiSelection = table && table.$children[0] && table.$children[0].type === 'selection'
         this.getList(false)
       },
       // 关闭弹框
