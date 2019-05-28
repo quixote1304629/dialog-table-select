@@ -6,11 +6,13 @@
     <el-button @click="openDialog">click</el-button>
     <div>{{selectedList}}</div>
     <dialog-table-select
+    ref="dialogTableSelect"
     :visible.sync="visible"
     :dialogConfig="dialogConfig"
     :searchFormConfig="searchFormConfig"
     :tableConfig="tableConfig"
     :selected="selectedList"
+    @opened="dialogOpened"
     @handSelect="handSelect">
       <div slot="top" slot-scope="scope">top</div>
       <div slot="bottom" slot-scope="scope">bottom{{scope.selectedDy}}</div>
@@ -30,6 +32,15 @@ export default {
           label: '活动名称',
           $el: {
             placeholder: '',
+            size: 'mini'
+          }
+        },
+        {
+          $type: 'select',
+          $id: 'activityType',
+          label: '活动类型',
+          $options: [{value: '1', label: 'aaa'}],
+          $el: {
             size: 'mini'
           }
         }
@@ -54,6 +65,10 @@ export default {
   methods: {
     openDialog(){
       this.visible = true
+    },
+    dialogOpened(){
+      let options = [{value: '1', label: 'aaa'}, {value: '2', label: 'bbb'}]
+      this.$refs.dialogTableSelect.$refs.searchForm.setOptions('activityType', options)
     },
     handSelect(val){
       this.selectedList = val

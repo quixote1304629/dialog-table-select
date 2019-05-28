@@ -92,6 +92,7 @@
     inheritAttrs: false,
     components: {},
     props: {
+      opened: {type: Function, require: false, default: () => {return function () {}}},
       // 弹框配置参数，具体格式见 ./config.js
       dialogConfig: {type: Object, require: false, default: () => {}},
       // 搜索表单配置参数
@@ -147,6 +148,8 @@
     methods: {
       // 弹框打开后
       dialogOpened() {
+        this.opened()
+
         let table = this.$refs.table
         // 判断是否为多选
         this.tableData.isMultiSelection = table && table.$children[0] && table.$children[0].type === 'selection'
