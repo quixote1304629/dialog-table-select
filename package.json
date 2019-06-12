@@ -1,6 +1,6 @@
 {
   "name": "@quixoter/dialog-table-select",
-  "version": "1.0.6",
+  "version": "1.0.0",
   "description": "",
   "author": "https://github.com/quixoter",
   "license": "MIT",
@@ -8,38 +8,34 @@
     "type": "git",
     "url": "https://github.com/quixoter/dialog-table-select.git"
   },
-  "keywords": [
-    "vue",
-    "sfc",
-    "component"
-  ],
-  "files": [
-    "src",
-    "dist",
-    "yarn.lock"
-  ],
+  "keywords": ["vue", "sfc", "component"],
+  "files": ["src", "dist", "yarn.lock"],
+
   "main": "dist/dialog-table-select.umd.js",
   "module": "dist/dialog-table-select.esm.js",
   "unpkg": "dist/dialog-table-select.min.js",
   "browser": {
     "./sfc": "src/dialog-table-select.vue"
   },
+
   "scripts": {
     "dev": "vue-styleguidist server",
     "doc": "vue-styleguidist build",
-    "build": "npm run build:unpkg & npm run build:es & npm run build:umd & npm run doc",
-    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/dialog-table-select.umd.js",
-    "build:es": "rollup --config build/rollup.config.js --format es --file dist/dialog-table-select.esm.js",
-    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/dialog-table-select.min.js",
+    "build":
+      "npm run build:unpkg & npm run build:es & npm run build:umd & npm run doc",
+    "build:umd":
+      "rollup --config build/rollup.config.js --format umd --file dist/dialog-table-select.umd.js",
+    "build:es":
+      "rollup --config build/rollup.config.js --format es --file dist/dialog-table-select.esm.js",
+    "build:unpkg":
+      "rollup --config build/rollup.config.js --format iife --file dist/dialog-table-select.min.js",
     "precommit": "pretty-quick --staged",
     "stdver": "standard-version -m '[skip ci] chore(release): v%s'",
     "release": "gren release --override"
   },
-  "dependencies": {
-    "@femessage/el-form-renderer": "^1.5.5",
-    "axios": "^0.18.0",
-    "element-ui": "^2.8.2"
-  },
+
+  "dependencies": {},
+
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/plugin-transform-runtime": "^7.4.3",
@@ -66,10 +62,13 @@
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.29.6"
   },
+
   "publishConfig": {
     "access": "public"
   },
-  "vue-sfc-cli": "1.6.0",
+
+  "vue-sfc-cli": "1.10.0",
+
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"

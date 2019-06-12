@@ -21,10 +21,7 @@ module.exports = {
   ribbon: {
     url: 'https://github.com/quixoter/dialog-table-select'
   },
-  require: [
-    './styleguide/element.js',
-    './styleguide/axios.js'
-  ],
+  require: ['./styleguide/axios.js', './styleguide/component.js'],
   sections: [
     {
       name: 'Components',
@@ -62,8 +59,6 @@ module.exports = {
         }
       ]
     },
-    plugins: [
-      new VueLoaderPlugin()
-    ]
+    plugins: [new VueLoaderPlugin()]
   }
 }
