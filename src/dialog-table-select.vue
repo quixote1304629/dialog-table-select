@@ -5,6 +5,7 @@
     class="dialog-table"
     @opened="dialogOpened"
   >
+    <!--@slot 弹框头部具名插槽scope.selectedDy当前选中数据-->
     <slot name="top" :selectedDy="selectedDy"></slot>
     <div class="content" v-loading="tableData.loading">
       <!--搜索字段-->
@@ -68,6 +69,7 @@
       >确 定</el-button
       >
     </span>
+    <!--@slot 弹框底部部具名插槽scope.selectedDy当前选中数据-->
     <slot name="bottom" :selectedDy="selectedDy"></slot>
   </el-dialog>
 </template>
@@ -93,6 +95,7 @@ export default {
   inheritAttrs: false,
   components: {},
   props: {
+    /** 弹框打开后执行 */
     opened: {
       type: Function,
       require: false,
@@ -100,17 +103,17 @@ export default {
         return function() {}
       }
     },
-    // 弹框配置参数，具体格式见 ./config.js
+    /** 弹框配置参数，具体格式见 ./config.js */
     dialogConfig: {type: Object, require: false, default: () => {}},
-    // 搜索表单配置参数
+    /**  搜索表单配置参数 */
     searchFormConfig: {type: Array, require: false, default: () => []},
-    // 表格配置参数，具体格式见 ./config.js
+    /** 表格配置参数，具体格式见 ./config.js */
     tableConfig: {type: Object, require: false, default: () => {}},
-    // 分页配置参数，具体格式见 ./config.js
+    /**  分页配置参数，具体格式见 ./config.js */
     paginationConfig: {type: Object, require: false, default: () => {}},
-    // 初始时选中数据
+    /**  初始时选中数据 */
     selected: {type: Array, require: false, default: () => []},
-    // 请求完毕执行的函数
+    /** 数据请求后执行的函数 */
     fecthSuccess: {type: Function, require: false, default: () => {}}
   },
   data() {
@@ -169,7 +172,7 @@ export default {
     dialogClose() {
       // 清空单选时 选中行
       this.resetSingleSelected()
-
+      /** dialog 关闭*/
       this.$emit('update:visible', false)
     },
     // 设置表格选中数据
@@ -293,6 +296,7 @@ export default {
         this.$message.warning('未选择数据')
         return
       }
+      /** 确认选中时触发*/
       this.$emit('handSelect', this.selectedDy)
       this.dialogClose()
     }
