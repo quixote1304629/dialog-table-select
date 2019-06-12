@@ -21,7 +21,7 @@ module.exports = {
   ribbon: {
     url: 'https://github.com/quixoter/dialog-table-select'
   },
-  require: ['./styleguide/axios.js', './styleguide/component.js'],
+  require: ['./styleguide/axios.js', './styleguide/element.js'],
   sections: [
     {
       name: 'Components',
