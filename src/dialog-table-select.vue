@@ -73,6 +73,7 @@
 </template>
 
 <script>
+  import _cloneDeep from 'lodash/cloneDeep'
   import {
     DIALOG_CONFIG_DEFAULT,
     TABLE_CONFIG_DEFAULT,
@@ -117,7 +118,7 @@
         theTableConfig: Object.assign({}, TABLE_CONFIG_DEFAULT, this.tableConfig),
         thePaginationConfig: Object.assign(
           {},
-          PAGINATION_CONFIG_DEFAULT,
+          _cloneDeep(PAGINATION_CONFIG_DEFAULT),
           this.paginationConfig
         ),
         searchForm: {
