@@ -7,6 +7,7 @@
   >
     <!--@slot 弹框头部具名插槽scope.selectedDy当前选中数据-->
     <slot name="top" :selectedDy="selectedDy"></slot>
+
     <div class="content" v-loading="tableData.loading">
       <!--搜索字段-->
       <el-form-renderer
@@ -63,12 +64,14 @@
       >
       </el-pagination>
     </div>
+
     <span slot="footer" class="dialog-footer">
       <el-button size="mini" @click="dialogClose">取 消</el-button>
       <el-button size="mini" type="primary" @click="dialogClickConfirmButton"
       >确 定</el-button
       >
     </span>
+
     <!--@slot 弹框底部部具名插槽scope.selectedDy当前选中数据-->
     <slot name="bottom" :selectedDy="selectedDy"></slot>
   </el-dialog>
@@ -76,6 +79,7 @@
 
 <script>
 import _cloneDeep from 'lodash/cloneDeep'
+import _get from 'lodash/get'
 import {
   DIALOG_CONFIG_DEFAULT,
   TABLE_CONFIG_DEFAULT,
@@ -114,7 +118,7 @@ export default {
     /**  初始时选中数据 */
     selected: {type: Array, require: false, default: () => []},
     /** 数据请求后执行的函数 */
-    fecthSuccess: {type: Function, require: false, default: () => {}}
+    fetchSuccess: {type: Function, require: false, default: () => {}}
   },
   data() {
     return {
@@ -208,13 +212,12 @@ export default {
           .get(this.theTableConfig.url, {params: requestParam})
           .then(response => {
             let res = response.data
-            this.tableData.list = res.payload.content
-            this.thePaginationConfig.paginationAttr.total =
-              res.payload.totalElements
+            this.tableData.list = _get(res, this.theTableConfig.dataPath, [])
+            this.thePaginationConfig.paginationAttr.total = _get(res, this.theTableConfig.totalPath, 0)
             this.tableData.isRequested = true
             this.setTableSelected()
 
-            this.fecthSuccess()
+            this.fetchSuccess()
           })
           .finally(() => {
             this.tableData.loading = false

@@ -12,9 +12,12 @@ export const DIALOG_CONFIG_DEFAULT = {
 
 // table配置参数
 export const TABLE_CONFIG_DEFAULT = {
+  // 数据请求地址
   url: '',
-  // 选择类型-单选:single;多选: multiple -未启用
-  // selectType: 'single',
+  // url响应数据中路径-list数据路径
+  dataPath: 'payload.content',
+  // url响应数据中路径-总数量的路径
+  totalPath: 'payload.totalElements',
   // el-table默认属性
   tableAttrs: {border: true, highlightCurrentRow: true},
   columns: [
