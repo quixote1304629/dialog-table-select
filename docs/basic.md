@@ -18,7 +18,8 @@
       :tableConfig="tableConfig"
       :selected="selectedList"
       @opened="dialogOpened"
-      @handSelect="handSelect">
+      @handSelect="handSelect"
+      :confirming="confirming">
       <div slot="top" slot-scope="scope">top</div>
       <div slot="bottom" slot-scope="scope">
         <h1>选中数据(未确认):</h1>
@@ -88,6 +89,15 @@ export default {
     /** 弹框确认选中数据*/
     handSelect(val){
       this.selectedList = val
+    },
+    /** 确认后 弹框前*/
+    confirming(){
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log('aaaaaaaaa')
+          resolve('ok')
+        }, 1000)
+      })
     }
   }
 }

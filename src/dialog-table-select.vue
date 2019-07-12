@@ -67,7 +67,7 @@
 
     <span slot="footer" class="dialog-footer">
       <el-button size="mini" @click="dialogClose">取 消</el-button>
-      <el-button size="mini" type="primary" @click="dialogClickConfirmButton"
+      <el-button size="mini" type="primary" :loading="confirmLoading" @click="dialogClickConfirmButton"
       >确 定</el-button
       >
     </span>
@@ -102,23 +102,25 @@ export default {
     /** 弹框打开后执行 */
     opened: {
       type: Function,
-      require: false,
+      required: false,
       default: () => {
         return function() {}
       }
     },
     /** 弹框配置参数，具体格式见 ./config.js */
-    dialogConfig: {type: Object, require: false, default: () => {}},
+    dialogConfig: {type: Object, required: false, default: () => {}},
     /**  搜索表单配置参数 */
-    searchFormConfig: {type: Array, require: false, default: () => []},
+    searchFormConfig: {type: Array, required: false, default: () => []},
     /** 表格配置参数，具体格式见 ./config.js */
-    tableConfig: {type: Object, require: false, default: () => {}},
+    tableConfig: {type: Object, required: false, default: () => {}},
     /**  分页配置参数，具体格式见 ./config.js */
-    paginationConfig: {type: Object, require: false, default: () => {}},
+    paginationConfig: {type: Object, required: false, default: () => {}},
     /**  初始时选中数据 */
-    selected: {type: Array, require: false, default: () => []},
-    /** 数据请求后执行的函数 */
-    fetchSuccess: {type: Function, require: false, default: () => {}}
+    selected: {type: Array, required: false, default: () => []},
+    /** 函数-数据请求后 */
+    fetchSuccess: {type: Function, required: false, default: () => {}},
+    /** 函数- 执行时间: 点击确定emit数据后&关闭弹框前 */
+    confirming: {type: Function, required: false, default: () => {}}
   },
   data() {
     return {
@@ -150,7 +152,9 @@ export default {
         // 多选到的数据
         listSelectedDy: [],
         list: []
-      }
+      },
+      // 确认loading
+      confirmLoading: false
     }
   },
   computed: {
@@ -294,13 +298,20 @@ export default {
       this.tableData.singleSelectedDy = []
     },
     // 点击确定按钮
-    dialogClickConfirmButton() {
+    async dialogClickConfirmButton() {
+      this.confirmLoading = true
       if (this.selectedDy.length === 0) {
         this.$message.warning('未选择数据')
+        this.confirmLoading = false
         return
       }
       /** 确认选中时触发*/
       this.$emit('handSelect', this.selectedDy)
+      try {
+        await this.confirming()
+      } finally {
+        this.confirmLoading = false
+      }
       this.dialogClose()
     }
   },
