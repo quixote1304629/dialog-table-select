@@ -178,8 +178,6 @@ export default {
     },
     // 关闭弹框
     dialogClose() {
-      // 清空单选时 选中行
-      this.resetSingleSelected()
       /** dialog 关闭*/
       this.$emit('update:visible', false)
     },
@@ -189,14 +187,15 @@ export default {
         return
       }
       this.$nextTick(() => {
+        let tempList = this.tableData.isMultiSelection ? this.tableData.listSelectedDy : this.tableData.singleSelectedDy
         this.tableData.list.forEach(row => {
-          const flag = this.tableData.listSelected.some(item => {
+          const flag = tempList.some(item => {
             return compareRow(item, row)
           })
           // 多选
-          this.$refs.table.toggleRowSelection(row, flag)
+          this.tableData.isMultiSelection && this.$refs.table.toggleRowSelection(row, flag)
           // 单选
-          flag && this.$refs.table.setCurrentRow(row)
+          !this.tableData.isMultiSelection && flag && this.$refs.table.setCurrentRow(row)
         })
       })
     },
@@ -319,6 +318,8 @@ export default {
     selected: {
       handler(val) {
         this.tableData.listSelected = val
+        this.tableData.listSelectedDy = val
+        this.tableData.singleSelectedDy = val
         this.setTableSelected()
       },
       deep: true,

@@ -54,11 +54,11 @@ export default {
       },
       /** 弹框配置*/
       dialogConfig: {
-        dialogAttr: { title: '选择活动' }
+        dialogAttr: { title: '选择活动', width: '70%' }
       },
       /** 选中的数据*/
       selectedList: [
-        { id: '7cf9a84f7f9f342de76c79518282fe30', activityName: '蝈蝈测试长期活动' }
+        { id: '7cf9a84f7f9f342de76c79518282fe30x', activityName: '蝈蝈测试长期活动' }
       ]
     }
   },

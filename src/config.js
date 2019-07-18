@@ -7,7 +7,7 @@ export const SELECT_TYPE = {
 // dialog配置参数
 export const DIALOG_CONFIG_DEFAULT = {
   // el-dialog默认属性
-  dialogAttr: {title: 'unknown title', width: '50%'}
+  dialogAttr: {title: 'unknown title'}
 }
 
 // table配置参数
