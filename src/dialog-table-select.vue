@@ -38,7 +38,7 @@
           content="刷新数据"
           placement="top-end"
         >
-          <i class="el-icon-refresh" @click="clickRefresh"></i>
+          <i class="el-icon-refresh" @click="refresh"></i>
         </el-tooltip>
       </div>
       <el-table
@@ -107,6 +107,10 @@ export default {
         return function() {}
       }
     },
+    /** 是否回显 */
+    echo: {type: Boolean, required: false, default: true},
+    /** 打开弹框时是否直接刷新数据 */
+    isRefreshWhenOpened: {type: Boolean, required: false, default: false},
     /** 弹框配置参数，具体格式见 ./config.js */
     dialogConfig: {type: Object, required: false, default: () => {}},
     /**  搜索表单配置参数 */
@@ -174,7 +178,11 @@ export default {
       // 判断是否为多选
       this.tableData.isMultiSelection =
         table && table.$children[0] && table.$children[0].type === 'selection'
-      this.getList(false)
+      if (this.isRefreshWhenOpened) {
+        this.refresh()
+      }else {
+        this.getList(false)
+      }
     },
     // 关闭弹框
     dialogClose() {
@@ -234,8 +242,8 @@ export default {
       this.thePaginationConfig.paginationAttr.currentPage = this.thePaginationConfig.pageDefault
       this.thePaginationConfig.paginationAttr.pageSize = this.thePaginationConfig.sizeDefault
     },
-    // 点击刷新
-    clickRefresh() {
+    // 刷新
+    refresh() {
       this.resetData()
       this.getList(true)
     },
@@ -274,7 +282,18 @@ export default {
     },
     // 单选-当选项行变化时
     handleCurrentChange(row) {
-      this.tableData.singleSelectedDy = [row]
+      this.tableData.singleSelectedDy = row ? [row] : []
+    },
+    // 单选-清空单选数据
+    resetSingleSelected() {
+      this.$refs.table.setCurrentRow()
+      this.tableData.singleSelectedDy = []
+    },
+    // 清空选中数据list
+    clearListSelected() {
+      this.tableData.listSelected.length = 0
+      this.tableData.listSelectedDy.length = 0
+      this.tableData.singleSelectedDy.length = 0
     },
     /** 搜索表单相关方法*****start**/
     async search() {
@@ -291,11 +310,6 @@ export default {
       this.getList(true)
     },
     /** 搜索表单相关方法*****end**/
-    // 单选-清空单选数据
-    resetSingleSelected() {
-      this.$refs.table.setCurrentRow()
-      this.tableData.singleSelectedDy = []
-    },
     // 点击确定按钮
     async dialogClickConfirmButton() {
       this.confirmLoading = true
@@ -311,16 +325,24 @@ export default {
       } finally {
         this.confirmLoading = false
       }
-      this.dialogClose()
+
+      if (!this.echo) {
+        this.clearListSelected()
+      }
+      this.dialogClose();
     }
   },
   watch: {
     selected: {
       handler(val) {
-        this.tableData.listSelected = val
-        this.tableData.listSelectedDy = val
-        this.tableData.singleSelectedDy = val
-        this.setTableSelected()
+        if (this.echo) {
+          this.tableData.listSelected = val
+          this.tableData.listSelectedDy = val
+          this.tableData.singleSelectedDy = val
+          this.setTableSelected()
+        } else {
+          this.clearListSelected()
+        }
       },
       deep: true,
       immediate: true
