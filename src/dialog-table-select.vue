@@ -123,7 +123,7 @@ export default {
     selected: {type: Array, required: false, default: () => []},
     /** 函数-数据请求后 */
     fetchSuccess: {type: Function, required: false, default: () => {}},
-    /** 函数- 执行时间: 点击确定emit数据后&关闭弹框前 */
+    /** 函数- 执行时间: 点击确定emit数据前&关闭弹框前 */
     confirming: {type: Function, required: false, default: () => {}}
   },
   data() {
@@ -318,13 +318,19 @@ export default {
         this.confirmLoading = false
         return
       }
-      /** 确认选中时触发*/
-      this.$emit('handSelect', this.selectedDy)
+
       try {
-        await this.confirming()
-      } finally {
+        // 确认前
+        await this.confirming(this.selectedDy)
+      } catch (e) {
+        console.log(e)
+        return
+      }finally {
         this.confirmLoading = false
       }
+
+      /** 确认选中时触发*/
+      this.$emit('handSelect', this.selectedDy)
 
       if (!this.echo) {
         this.clearListSelected()

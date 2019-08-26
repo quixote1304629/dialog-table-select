@@ -92,10 +92,10 @@ export default {
       this.selectedList = val
     },
     /** 确认后 弹框前*/
-    confirming(){
+    confirming(val){
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          console.log('aaaaaaaaa')
+          console.log('aaaaaaaaa:', val)
           resolve('ok')
         }, 1000)
       })
