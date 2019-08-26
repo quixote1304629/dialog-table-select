@@ -91,7 +91,7 @@ export default {
     handSelect(val){
       this.selectedList = val
     },
-    /** 确认后 弹框前*/
+    /** 点击确认执行， 数据emit前执行*/
     confirming(val){
       return new Promise((resolve, reject) => {
         setTimeout(() => {
