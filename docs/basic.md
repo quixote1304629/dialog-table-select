@@ -10,6 +10,8 @@
       <p :key="i" v-for="(item,i) in selectedList">id: {{item.id}},activityName: {{item.activityName}}</p>
     </div>
     
+    <button @click="test1">change url</button>
+    
     <dialog-table-select
       ref="dialogTableSelect"
       :visible.sync="visible"
@@ -58,7 +60,7 @@ export default {
       ],
       /** 弹框中表格配置*/
       tableConfig: {
-        url: 'https://www.easy-mock.com/mock/5cffa748dd1bd63aa02f2fe0/example/hello-3',
+        url: 'http://39.100.141.76:3000/mock/610/aa/activities',
         columns: [
           { type: 'selection', selectable: () => true },
           { prop: 'id', label: 'ID' },
@@ -99,6 +101,9 @@ export default {
           resolve('ok')
         }, 1000)
       })
+    },
+    test1(){
+      this.tableConfig.url = 'http://39.100.141.76:3000/mock/610/aa/activities?ss=hh'
     }
   }
 }

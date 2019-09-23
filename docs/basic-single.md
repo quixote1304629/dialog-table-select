@@ -46,7 +46,7 @@ export default {
       ],
       /** 弹框中表格配置*/
       tableConfig: {
-        url: 'https://www.easy-mock.com/mock/5cffa748dd1bd63aa02f2fe0/example/hello-3',
+        url: 'http://39.100.141.76:3000/mock/610/aa/activities',
         columns: [
           { prop: 'id', label: 'ID' },
           { prop: 'activityName', label: '活动名称' }

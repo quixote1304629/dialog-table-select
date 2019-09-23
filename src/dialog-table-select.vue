@@ -134,7 +134,7 @@ export default {
         DIALOG_CONFIG_DEFAULT,
         this.dialogConfig
       ),
-      theTableConfig: Object.assign({}, TABLE_CONFIG_DEFAULT, this.tableConfig),
+      theTableConfig: {url: ''},
       thePaginationConfig: Object.assign(
         {},
         _cloneDeep(PAGINATION_CONFIG_DEFAULT),
@@ -352,6 +352,19 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    tableConfig: {
+      handler(val) {
+        this.theTableConfig = Object.assign({}, TABLE_CONFIG_DEFAULT , val)
+      },
+      deep: true,
+      immediate: true
+    },
+    'theTableConfig.url': {
+      handler(val) {
+        this.resetData()
+      },
+      immediate: false
     }
   },
   created() {},
