@@ -196,6 +196,14 @@ export default {
       }
       this.$nextTick(() => {
         let tempList = this.tableData.isMultiSelection ? this.tableData.listSelectedDy : this.tableData.singleSelectedDy
+
+        // 单选 未选择数据
+        if (!this.tableData.isMultiSelection && tempList.length == 0) {
+          this.$refs.table.setCurrentRow()
+          return
+        }
+
+        // 多选/单选 有选择数据
         this.tableData.list.forEach(row => {
           const flag = tempList.some(item => {
             return compareRow(item, row)

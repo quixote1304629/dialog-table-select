@@ -7,7 +7,10 @@
     
     <div>
       <h1>选中数据(确认):</h1>
-      <p :key="i" v-for="(item,i) in selectedList">id: {{item.id}},activityName: {{item.activityName}}</p>
+      <p :key="i" v-for="(item,i) in selectedList">
+        <span>id: {{item.id}},activityName: {{item.activityName}}</span>
+        <button @click="drop(i)">移除</button>
+      </p>
     </div>
     
     <dialog-table-select
@@ -70,6 +73,10 @@ export default {
     /** 弹框确认选中数据*/
     handSelect(val){
       this.selectedList = val
+    },
+    /** 移除*/
+    drop(i){
+      this.selectedList.splice(i, 1)
     }
   }
 }
