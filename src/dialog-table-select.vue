@@ -109,6 +109,8 @@ export default {
     },
     /** 是否回显 */
     echo: {type: Boolean, required: false, default: true},
+    /** 行数据的唯一性key名 */
+    rowKey: {type: String, required: false, default: 'id'},
     /** 打开弹框时是否直接刷新数据 */
     isRefreshWhenOpened: {type: Boolean, required: false, default: false},
     /** 弹框配置参数，具体格式见 ./config.js */
@@ -180,7 +182,7 @@ export default {
         table && table.$children[0] && table.$children[0].type === 'selection'
       if (this.isRefreshWhenOpened) {
         this.refresh()
-      }else {
+      } else {
         this.getList(false)
       }
     },
@@ -195,7 +197,9 @@ export default {
         return
       }
       this.$nextTick(() => {
-        let tempList = this.tableData.isMultiSelection ? this.tableData.listSelectedDy : this.tableData.singleSelectedDy
+        let tempList = this.tableData.isMultiSelection
+          ? this.tableData.listSelectedDy
+          : this.tableData.singleSelectedDy
 
         // 单选 未选择数据
         if (!this.tableData.isMultiSelection && tempList.length == 0) {
@@ -206,12 +210,15 @@ export default {
         // 多选/单选 有选择数据
         this.tableData.list.forEach(row => {
           const flag = tempList.some(item => {
-            return compareRow(item, row)
+            return compareRow(item, row, this.rowKey)
           })
           // 多选
-          this.tableData.isMultiSelection && this.$refs.table.toggleRowSelection(row, flag)
+          this.tableData.isMultiSelection &&
+            this.$refs.table.toggleRowSelection(row, flag)
           // 单选
-          !this.tableData.isMultiSelection && flag && this.$refs.table.setCurrentRow(row)
+          !this.tableData.isMultiSelection &&
+            flag &&
+            this.$refs.table.setCurrentRow(row)
         })
       })
     },
@@ -232,7 +239,11 @@ export default {
           .then(response => {
             let res = response.data
             this.tableData.list = _get(res, this.theTableConfig.dataPath, [])
-            this.thePaginationConfig.paginationAttr.total = _get(res, this.theTableConfig.totalPath, 0)
+            this.thePaginationConfig.paginationAttr.total = _get(
+              res,
+              this.theTableConfig.totalPath,
+              0
+            )
             this.tableData.isRequested = true
             this.setTableSelected()
 
@@ -273,19 +284,25 @@ export default {
     handleSelectionChange(val) {
       // this.tableData.listSelectedDy = val
       // 1.找出val中有,listSelectedDy无的数据，并存入listSelectedDy
-      let addList = findNotIncludeRow(this.tableData.listSelectedDy, val)
+      let addList = findNotIncludeRow(
+        this.tableData.listSelectedDy,
+        val,
+        this.rowKey
+      )
       this.tableData.listSelectedDy = this.tableData.listSelectedDy.concat(
         addList
       )
       // 2.找出listSelectedDy和tableData.list有，但val无 的数据，在listSelectedDy中删除
       let sameData = findSameRow(
         this.tableData.listSelectedDy,
-        this.tableData.list
+        this.tableData.list,
+        this.rowKey
       )
-      let delData = findNotIncludeRow(val, sameData)
+      let delData = findNotIncludeRow(val, sameData, this.rowKey)
       this.tableData.listSelectedDy = delList(
         this.tableData.listSelectedDy,
-        delData
+        delData,
+        this.rowKey
       )
     },
     // 单选-当选项行变化时
@@ -333,7 +350,7 @@ export default {
       } catch (e) {
         console.log(e)
         return
-      }finally {
+      } finally {
         this.confirmLoading = false
       }
 
@@ -343,7 +360,7 @@ export default {
       if (!this.echo) {
         this.clearListSelected()
       }
-      this.dialogClose();
+      this.dialogClose()
     }
   },
   watch: {
@@ -363,7 +380,7 @@ export default {
     },
     tableConfig: {
       handler(val) {
-        this.theTableConfig = Object.assign({}, TABLE_CONFIG_DEFAULT , val)
+        this.theTableConfig = Object.assign({}, TABLE_CONFIG_DEFAULT, val)
       },
       deep: true,
       immediate: true
