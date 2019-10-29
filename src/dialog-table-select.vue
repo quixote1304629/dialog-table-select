@@ -332,6 +332,8 @@ export default {
       this.$refs.searchForm.resetFields()
       this.searchForm.data = {}
       this.resetData()
+      // 清空动态选择到的数据
+      this.clearListSelected()
       this.getList(true)
     },
     /** 搜索表单相关方法*****end**/
@@ -367,9 +369,10 @@ export default {
     selected: {
       handler(val) {
         if (this.echo) {
-          this.tableData.listSelected = val
-          this.tableData.listSelectedDy = val
-          this.tableData.singleSelectedDy = val
+          let nv = _cloneDeep(val)
+          this.tableData.listSelected = nv
+          this.tableData.listSelectedDy = nv
+          this.tableData.singleSelectedDy = nv
           this.setTableSelected()
         } else {
           this.clearListSelected()

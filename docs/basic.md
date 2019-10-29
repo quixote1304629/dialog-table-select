@@ -7,7 +7,10 @@
     
     <div>
       <h1>选中数据(确认):</h1>
-      <p :key="i" v-for="(item,i) in selectedList">id: {{item.id}},activityName: {{item.activityName}}</p>
+      <p :key="i" v-for="(item,i) in selectedList">
+        id: {{item.id}},activityName: {{item.activityName}} 
+        <button @click="drop(i)">移除</button>
+      </p>
     </div>
     
     <button @click="test1">change url</button>
@@ -88,6 +91,10 @@ export default {
     dialogOpened(){
       let options = [{value: '1', label: 'aaa'}, {value: '2', label: 'bbb'}]
       this.$refs.dialogTableSelect.$refs.searchForm.setOptions('activityType', options)
+    },
+    /** 移除*/
+    drop(i){
+      this.selectedList.splice(i, 1)
     },
     /** 弹框确认选中数据*/
     handSelect(val){
